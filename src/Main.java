@@ -30,28 +30,56 @@ public class Main {
     }
     public static void zad2(){
         Scanner input = new Scanner(System.in);
-        System.out.print("Введите время начала звонка (0-23 часа): ");
-        int t = input.nextInt();
-        System.out.print("Введите сколько длился звонок в минутах: ");
-        int dt = input.nextInt();
-        System.out.print("Введите стоимость минуты разговора: ");
-        double s = input.nextDouble();
-        System.out.print("Введите день недели когда начался звонок: ");
-        int d = input.nextInt();
-        double sk = 1;
-        if(t < 8 || t > 22){
-            sk = sk * 0.8;
-        }
-        if (d == 6 || d == 7){
-            if (sk == 0.8){
-                System.out.println("Скидка составит 30%");
-                sk = 0.7;
+        double t;
+        double dt;
+        double s;
+        int d;
+        do {
+            System.out.print("Введите время начала звонка (0-23 часа, если например время 23:30, то введите 23.5): ");
+            t = input.nextDouble();
+        } while (!(t >= 0) || !(t < 24));
+        do {
+            System.out.print("Введите сколько длился звонок в минутах: ");
+            dt = input.nextDouble();
+        } while (!(dt >= 0));
+        do {
+            System.out.print("Введите стоимость минуты разговора (в рублях): ");
+            s = input.nextDouble();
+        } while (!(s >= 0) || !(s < 24));
+
+        do {
+            System.out.print("Введите день недели когда начался звонок: ");
+            d = input.nextInt();
+        } while (!(d > 0) || !(d <= 7));
+        double itog = 0;
+        int hour = (int) t;
+        int minutes = (int)Math.ceil((t-hour)*60);
+        System.out.println(hour);
+        System.out.println(minutes);
+        while(dt>0){
+            if (minutes > 59){
+                hour += 1;
+                minutes = 0;
             }
-            else {
-                System.out.println("Скидка составит 20%");
+            if (hour > 23){
+                hour = 0;
+                d += 1;
             }
+            if (d > 7){
+                d = 1;
+            }
+            double sk = 1;
+            if(t < 8 || t > 22){
+                sk = sk * 0.8;
+            }
+            if (d == 6 || d == 7){
+                sk = sk * 0.7;
+            }
+            itog = itog + 1 * s * sk;
+            dt -= 1;
+            minutes += 1;
         }
-        System.out.println("Полная стоимость звонка будет равна: " + s * sk * dt);
+        System.out.println("Полная стоимость звонка будет равна: " + itog + " рублей");
     }
     public static void zad3(){
         Scanner input = new Scanner(System.in);
